@@ -1,37 +1,27 @@
 # E-ink Pendant
 
-#### 项目介绍
+## 项目介绍
 基于电子墨水屏与wifi的，科创纪念钥匙链挂饰，服务器为php驱动
 
-#### 软件架构
-软件架构说明
+## 项目文件结构
+- 硬件设计
+- - 硬件资料
+- - 硬件工程文件
+- 嵌入式软件
+- - esp8266工程脚本
+- - esp8266所用固件
+- 服务器部分
+- - 服务器整体框架
+- - 公开的二次开发api以及demo sdk
 
-
-#### 安装教程
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 需要实现的功能
+- 驱动电子墨水屏幕，SPI控制，分辨率200*200
+- 锂电池供电，可实时显示电压（剩余电量）
+- 可充电
+- 定时刷新电子墨水屏界面
+- 界面显示内容可在网站端设置
+- 所有设置可在网站端修改
+- 可存储多组wifi，自动连接
+- 提供屏幕显示内容模板
+- 提供自定义显示内容模板设置（开放api）
+- 网站的账号注册以及绑定设备流程
