@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title></title>
+		<link rel="shortcut icon" href=""/>
+		<style type="text/css">
+			*{ margin: 0;padding: 0; }
+			body{ height: 100%;}
+			.top{ height: 65px; background: #3f51b5; box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12); position: relative;}
+				.title{ font-size: 28px; color: #fff; font-family:Roboto,Noto,Helvetica,Arial,sans-serif; margin-left: 50px; line-height: 65px}
+				.index{ height: 65px; width: 65px; position: absolute; right: 0; top:0; cursor: pointer;}
+				.index:hover{ background: rgba(255,255,255,.2); }
+					.index svg{margin: 8px; width: 49px; height: 49px;}
+			.bottom{ height: 10px; width: 100%; background: #b9c3ff; position: absolute; bottom: 0;}
+			.reg_box{ height: 360px; width: 300px; border:1px solid #b9c3ff; border-radius: 10px; position: absolute; top: 50%;left: 50%; margin: -180px 0 0 -200px; padding: 20px;}
+				.reg_title{ font-size: 24px; color: #3f51b5; padding: 16px 22px; position: relative;}
+					.reg_title p{ height:12px; width: 4px; background: #3f51b5; position: absolute; margin-left: -10px}
+			.submit_center{left: 35%;}
+		</style>
+		<link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.1/css/mdui.min.css">
+		<script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.1/js/mdui.min.js"></script>
+		<script>
+		var $$ = mdui.JQ;
+		</script>
+	</head>
+	<body>
+		<div class="top">
+			<p class="title">注册</p>
+			<div class="index">
+				<svg t="1529309871301" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2853"><path d="M772.4 532.5c-4.5 0-8.9-1.7-12.4-5.1L512.3 279.6 264.5 527.3c-6.8 6.8-17.9 6.8-24.7 0-6.8-6.8-6.8-17.9 0-24.7l260.1-260.1c3.3-3.3 7.7-5.1 12.4-5.1 4.6 0 9.1 1.8 12.4 5.1l260.1 260.1c6.8 6.8 6.8 17.9 0 24.7-3.4 3.5-7.9 5.2-12.4 5.2z" fill="#ffffff" p-id="2854"></path><path d="M681 787.6H343.6c-9.6 0-17.5-7.8-17.5-17.5V525.3c0-9.6 7.8-17.5 17.5-17.5s17.5 7.8 17.5 17.5v227.3h302.5V525.3c0-9.6 7.8-17.5 17.5-17.5s17.5 7.8 17.5 17.5v244.8c-0.1 9.7-8 17.5-17.6 17.5z" fill="#ffffff" p-id="2855"></path><path d="M512.3 955.5c-59.8 0-117.8-11.7-172.5-34.8-52.8-22.3-100.1-54.3-140.8-94.9-40.7-40.7-72.6-88.1-94.9-140.8C81 630.3 69.2 572.3 69.2 512.5S80.9 394.7 104 340c22.3-52.8 54.3-100.1 94.9-140.8 40.7-40.7 88.1-72.6 140.8-94.9 54.6-23.1 112.7-34.8 172.5-34.8S630 81.2 684.7 104.3c52.8 22.3 100.1 54.3 140.8 94.9 40.7 40.7 72.6 88.1 94.9 140.8 23.1 54.6 34.8 112.7 34.8 172.5S943.5 630.3 920.4 685c-22.3 52.8-54.3 100.1-94.9 140.8s-88.1 72.6-140.8 94.9c-54.6 23.1-112.6 34.8-172.4 34.8z m0-851.1c-225 0-408.1 183.1-408.1 408.1 0 225 183.1 408.1 408.1 408.1 225 0 408.1-183.1 408.1-408.1 0-225-183.1-408.1-408.1-408.1z" fill="#ffffff" p-id="2856"></path></svg>
+			</div>
+		</div>
+		<div class="reg_box">
+			<div class="reg_title"><p></p>注册</div>
+			<div class="mdui-textfield mdui-textfield-floating-label">
+				<label class="mdui-textfield-label">邮箱地址</label>
+				<input class="mdui-textfield-input" type="email">
+			</div>
+			<div class="mdui-textfield mdui-textfield-floating-label">
+				<label class="mdui-textfield-label">密码</label>
+				<input class="mdui-textfield-input" type="password">
+			</div>
+			<div class="mdui-textfield mdui-textfield-floating-label">
+				<label class="mdui-textfield-label">确认密码</label>
+				<input class="mdui-textfield-input" type="password">
+			</div>
+			<input class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-pink-accent submit_center" type="submit" value="提交注册">
+		</div>
+		<div class="bottom"></div>
+	</body>
+</html>
