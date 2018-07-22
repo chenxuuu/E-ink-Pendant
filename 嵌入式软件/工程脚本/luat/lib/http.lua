@@ -11,7 +11,7 @@ module(..., package.seeall)
 local function response(client,cbFnc,result,prompt,head,body)
     if not result then log.error("http.response",result,prompt) end
     if cbFnc then cbFnc(result,prompt,head,body) end
-    if client then client:close() end
+    client:close()
 end
 
 local function receive(client,timeout,cbFnc,result,prompt,head,body)

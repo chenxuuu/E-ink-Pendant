@@ -650,22 +650,28 @@ local function cbFnc(result,prompt,head,body)
     if result and body then
         log.info("Http.cbFnc","bodyLen="..body:len())
         local tjsondata,jsonresult,errinfo = json.decode(body)
+        local jump = false
         if jsonresult then
             if tjsondata["jump"] then
-                http.request("GET","qq.papapoi.com/e-ink/?lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()),nil,nil,nil,nil,cbFnc)
+                jump = true
+                http.request("GET",tjsondata["data"].."?&lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei(),nil,nil,nil,nil,cbFnc)
             else
                 epd1in54.showPicture(string.fromHex(tjsondata["data"]))
+                rtos.sleep(6000)
+                rtos.poweroff()
             end
         else
             log.info("Json.decode error",errinfo)
             epd1in54.showPictureN(errorpic)
+            rtos.sleep(6000)
+            rtos.poweroff()
         end
     end
     if not result then
         epd1in54.showPictureN(errorpic)
+        rtos.sleep(6000)
+        rtos.poweroff()
     end
-    rtos.sleep(3000)
-    rtos.poweroff()
 end
 
 
@@ -695,7 +701,7 @@ function getLocCb(result,lat,lng,addr)
         log.info("LbsLoc.getLocCb",lat,lng)
         alat,alng=lat,lng
     end
-    http.request("GET","qq.papapoi.com/e-ink/?lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei(),nil,nil,nil,nil,cbFnc)
+    http.request("GET","qq.papapoi.com/e-ink/?&lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei(),nil,nil,nil,nil,cbFnc)
 end
 
 reqLbsLoc()
