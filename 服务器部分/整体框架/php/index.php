@@ -16,7 +16,6 @@
   </head>
   <body>
   <?php
-$page_start_time = microtime();
 session_start();
 if(isset($_SESSION['userid'])){
     include('../conn.php');
@@ -109,7 +108,7 @@ html;
 								<label for="imei">
 									图片转换后的数据：
 								</label>
-								<input type="email" class="form-control" name="pic" value="<?php echo $api;?>">
+								<input type="text" class="form-control" name="pic" value="<?php echo $pic;?>">
 							</div>
 							<button type="submit" class="btn btn-primary btn-block btn-outline-primary">
 								设置/更改自定义图片
@@ -137,7 +136,7 @@ html;
 								<label for="imei">
 									http接口（必须是http，模块不兼容https，输入的网址不要包括http://这个开头）
 								</label>
-								<input type="email" class="form-control" name="api" value="<?php echo $pic;?>">
+								<input type="text" class="form-control" name="api" value="<?php echo $api;?>">
 							</div>
 							<button type="submit" class="btn btn-primary btn-block btn-outline-primary">
 								设置/更改api接口
