@@ -38,7 +38,7 @@ $hum = $data['HeWeather6'][0]['daily_forecast'][0]['hum'];
 
 
 imagettftext($im, 25, 0, 0, 28, $tc, "SIMYOU.TTF", $location);
-imagettftext($im, 20, 0, 90, 55, $tc, "SIMYOU.TTF", $t_min.'～'.$t_max.'℃');
+imagettftext($im, 20, 0, 90, 55, $tc, "SIMYOU.TTF", $t_min.'~'.$t_max.'℃');
 imagettftext($im, 18, 0, 0, 80, $tc, "SIMYOU.TTF", "白天：".$day_w);
 imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "夜间：".$night_w);
 imagettftext($im, 18, 0, 0, 145, $tc, "SIMYOU.TTF", $wind.$wind_s.'级');
