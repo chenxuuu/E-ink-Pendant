@@ -3,6 +3,7 @@ $imei = $_GET["imei"];
 $lat = $_GET["lat"];
 $lng = $_GET["lng"];
 $v = $_GET["v"];
+$key = $_GET["key"];  //用自己的key
 
 $im = ImageCreate ( 200, 200 );
 $bgc = ImageColorAllocate ( $im, 255, 255, 255 );         //背景颜色
@@ -21,8 +22,7 @@ $opts = array(
     )
 );
 $context = stream_context_create($opts);
-$result = file_get_contents("https://free-api.heweather.com/s6/weather/forecast?location=".$lng.",".$lat."&key=3e91b51b16854a9db5a3c7d8efd2f648", false, $context);
-//$result = '{"HeWeather6": [{"basic": {"cid": "CN101190404","location": "齐齐哈尔","parent_city": "苏州","admin_area": "江苏","cnty": "中国","lat": "31.38192558","lon": "120.95813751","tz": "+8.00"},"update": {"loc": "2018-07-22 10:48","utc": "2018-07-22 02:48"},"status": "ok","daily_forecast": [{"cond_code_d": "307","cond_code_n": "302","cond_txt_d": "大雨","cond_txt_n": "雷阵雨","date": "2018-07-22","hum": "82","mr": "14:21","ms": "00:44","pcpn": "4.0","pop": "74","pres": "996","sr": "05:06","ss": "18:58","tmp_max": "30","tmp_min": "27","uv_index": "4","vis": "14","wind_deg": "10","wind_dir": "北风","wind_sc": "7-8","wind_spd": "65"},{"cond_code_d": "302","cond_code_n": "101","cond_txt_d": "雷阵雨","cond_txt_n": "多云","date": "2018-07-23","hum": "79","mr": "15:17","ms": "01:23","pcpn": "5.0","pop": "80","pres": "1000","sr": "05:07","ss": "18:57","tmp_max": "34","tmp_min": "27","uv_index": "6","vis": "18","wind_deg": "172","wind_dir": "南风","wind_sc": "4-5","wind_spd": "27"},{"cond_code_d": "101","cond_code_n": "101","cond_txt_d": "多云","cond_txt_n": "多云","date": "2018-07-24","hum": "76","mr": "16:10","ms": "02:03","pcpn": "1.0","pop": "55","pres": "1003","sr": "05:08","ss": "18:56","tmp_max": "35","tmp_min": "28","uv_index": "5","vis": "18","wind_deg": "135","wind_dir": "东南风","wind_sc": "4-5","wind_spd": "28"}]}]}';
+$result = file_get_contents("https://free-api.heweather.com/s6/weather/forecast?location=".$lng.",".$lat."&key=".$key, false, $context);
 $data=json_decode($result, true);
 
 
