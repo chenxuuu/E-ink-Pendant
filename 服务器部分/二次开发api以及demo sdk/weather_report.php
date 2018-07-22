@@ -44,6 +44,14 @@ imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "夜间：".$night_w);
 imagettftext($im, 18, 0, 0, 145, $tc, "SIMYOU.TTF", $wind.$wind_s.'级');
 imagettftext($im, 18, 0, 0, 170, $tc, "SIMYOU.TTF", '相对湿度'.$hum.'%');
 
+$battery = ($v - 3400)/800;
+if($battery>1)
+$battery=1;
+elseif($battery<0)
+$battery=0;
+
+
+ImageString ( $im, 20, 0, 180, intval($battery*100).'%', $tc );
 ImageString ( $im, 20, 100, 180, $date_time, $tc );
 
 // ImageString ( $im, 20, 0, 0, "just is English code", $tc );
