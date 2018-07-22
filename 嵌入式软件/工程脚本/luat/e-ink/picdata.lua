@@ -655,7 +655,6 @@ local function cbFnc(result,prompt,head,body)
                 http.request("GET","qq.papapoi.com/e-ink/?lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()),nil,nil,nil,nil,cbFnc)
             else
                 epd1in54.showPicture(string.fromHex(tjsondata["data"]))
-                rtos.poweroff()
             end
         else
             log.info("Json.decode error",errinfo)
@@ -665,6 +664,7 @@ local function cbFnc(result,prompt,head,body)
     if not result then
         epd1in54.showPictureN(errorpic)
     end
+    rtos.sleep(3000)
     rtos.poweroff()
 end
 
