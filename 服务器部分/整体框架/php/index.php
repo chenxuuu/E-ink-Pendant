@@ -147,7 +147,10 @@ html;
 						设置方法，先去<a href="https://console.heweather.com/register" target="_blank">和风天气</a>申请接口的key，记下key<br/>
 						把这段网址复制下来，把key进行替换（不要加多余的空格或其他东西）<br/>
 						qq.papapoi.com/e-ink/weather_report.php?key=你申请到的key& <br/>
-						然后填写到上面的输入框，设置，即可<br/><br/><br/>
+						然后填写到上面的输入框，设置，即可<br/>
+						如果你嫌麻烦，那就直接用我的api key（次数有限哦）：<br/>
+						qq.papapoi.com/e-ink/weather_report.php?key=3e91b51b16854a9db5a3c7d8efd2f648&
+						<br/><br/><br/><br/>
 						使用自己的的api接口（如果是用php写的，没服务器的话，可以联系晨旭代挂）：<br>
 						模块使用的是http get请求命令，请求格式：你的api网址?imei=模块的imei&lat=维度&lng=经度&v=电池电压的一千倍<br/>
 						例如：http://qq.papapoi.com/e-ink/weather_report.php?key=123&?&imei=123456789012345&lat=31&lng=110&v=4100<br/>
