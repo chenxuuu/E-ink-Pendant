@@ -638,6 +638,11 @@ local errorpic={0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X08,0X00,0X78,0X40,0X00,0X00
 
 epd1in54.showPictureN(opening)--显示开机画面
 
+local function seelp_poweroff()
+    epd1in54.deepSleep()
+    rtos.sleep(3000)
+    rtos.poweroff()
+end
 
 alat,alng=0,0
 local function cbFnc(result,prompt,head,body)
@@ -657,20 +662,17 @@ local function cbFnc(result,prompt,head,body)
                 http.request("GET",tjsondata["data"].."?&lat="..alat.."&lng="..alng.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei(),nil,nil,nil,nil,cbFnc)
             else
                 epd1in54.showPicture(string.fromHex(tjsondata["data"]))
-                rtos.sleep(6000)
-                rtos.poweroff()
+                seelp_poweroff()
             end
         else
             log.info("Json.decode error",errinfo)
             epd1in54.showPictureN(errorpic)
-            rtos.sleep(6000)
-            rtos.poweroff()
+            seelp_poweroff()
         end
     end
     if not result then
         epd1in54.showPictureN(errorpic)
-        rtos.sleep(6000)
-        rtos.poweroff()
+        seelp_poweroff()
     end
 end
 
@@ -696,7 +698,7 @@ end
 ]]
 function getLocCb(result,lat,lng,addr)
     log.info("LbsLoc.getLocCb",result,lat,lng,(result==0 and addr) and common.ucs2beToGb2312(addr) or "")
-    
+
     if result==0 then--获取经纬度成功
         log.info("LbsLoc.getLocCb",lat,lng)
         alat,alng=lat,lng

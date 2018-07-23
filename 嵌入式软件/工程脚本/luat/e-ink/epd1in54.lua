@@ -124,7 +124,6 @@ local function wait()
     end
 end
 
-local cmd = false
 setDC(1)
 local function sendCommand(data)
     --log.info("epd1in45.sendCommand",data)
