@@ -151,7 +151,7 @@ local function reset()
     rtos.sleep(200)
 end
 
-local function deepSleep()
+function deepSleep()
     log.info("epd1in45.deepSleep","")
     sendCommand(0x10)
     wait()
