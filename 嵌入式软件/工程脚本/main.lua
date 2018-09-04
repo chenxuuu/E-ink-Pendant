@@ -33,14 +33,14 @@ netLed.setup(true,pio.P1_1)
 
 --加载错误日志管理功能模块【强烈建议打开此功能】
 --如下2行代码，只是简单的演示如何使用errDump功能，详情参考errDump的api
-require "errDump"
-errDump.request("udp://ota.airm2m.com:9072")
+-- require "errDump"
+-- errDump.request("udp://ota.airm2m.com:9072")
 
 --加载远程升级功能模块【强烈建议打开此功能】
 --如下3行代码，只是简单的演示如何使用update功能，详情参考update的api以及demo/update
 PRODUCT_KEY = "a79KxY1I3CJ5m6KymLWLfYZGn0lcqNZz"
-require "update"
-update.request()
+-- require "update"
+-- update.request()
 
 require "epd1in54"
 require "picdata"

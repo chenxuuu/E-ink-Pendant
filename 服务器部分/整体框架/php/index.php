@@ -45,6 +45,11 @@ html;
   exit(0);
 }
 
+if ($api == "")
+{
+	$api = "https://qq.papapoi.com/e-ink/weather_report.php?t=2&";
+}
+
 if($eink_set == "pic")
 {
 	$api_a = "";
@@ -134,7 +139,7 @@ html;
 						<form role="form" method="post" action="setapi.php">
 							<div class="form-group">
 								<label for="imei">
-									http接口（必须是http，模块不兼容https，输入的网址不要包括http://这个开头）
+									http/https接口（https接口可能不兼容，请自行测试）
 								</label>
 								<input type="text" class="form-control" name="api" value="<?php echo $api;?>">
 							</div>
@@ -143,23 +148,15 @@ html;
 							</button>
 						</form>
 						本站提供的api接口：<br>
-						天气显示，可自动识别位置，显示当前的气温、天气、风力等信息，api接口需要自行申请<br/>
-						设置方法，先去<a href="https://console.heweather.com/register" target="_blank">和风天气</a>申请接口的key，记下key<br/>
-						把这段网址复制下来，把key进行替换（不要加多余的空格或其他东西）<br/>
-						qq.papapoi.com/e-ink/weather_report.php?key=你申请到的key& <br/>
+						天气显示，可自动识别位置，显示当前的气温、天气、风力等信息，api接口是晨旭自行申请的<br/>
+						把这段网址复制下来，把t进行替换（该参数代表多少小时自动开机刷新一次数据，设置为0禁用）<br/>
+						https://qq.papapoi.com/e-ink/weather_report.php?t=2& <br/>
 						然后填写到上面的输入框，设置，即可<br/>
-						如果你嫌麻烦，那就直接用我的api key（次数有限哦）：<br/>
-						qq.papapoi.com/e-ink/weather_report.php?key=3e91b51b16854a9db5a3c7d8efd2f648&
 						<br/><br/><br/><br/>
 						使用自己的的api接口（如果是用php写的，没服务器的话，可以联系晨旭代挂）：<br>
-						模块使用的是http get请求命令，请求格式：你的api网址?imei=模块的imei&lat=维度&lng=经度&v=电池电压的一千倍<br/>
-						例如：http://qq.papapoi.com/e-ink/weather_report.php?key=123&?&imei=123456789012345&lat=31&lng=110&v=4100<br/>
-						服务器返回的应为一段json数据，不能夹杂其他任何数据，json格式如下：<br/>
-						{"jump": false,"data":"FFFFFFF(数据太多此处省略)"}<br/>
-						json格式解释：<br/>
-						当jump为true时，模块会重新向data所包含的网址进行重新获取数据，网址不要包括http://这个开头<br/>
-						当jump为false时，data为模块要显示的图片数据，数据为16进制的字符串，像素排序为从左到右、从上到下，二进制解析出来的0为黑、1为白<br/>
-						图片分辨率始终为200*200，不符合这个分辨率的将显示错乱<br/>
+						模块使用的是http get请求命令，请求格式：你的api网址?imei=模块的imei&lat=维度&lng=经度&v=电池电压（单位mV）&c=小区信息（用于自己定位）<br/>
+						例如：http://qq.papapoi.com/e-ink/weather_report.php?t=2&?&imei=123456789012345&lat=31&lng=110&v=4100&c=460.00.6335.29<br/>
+						服务器返回的应为一段数据，不能夹杂其他任何数据，格式参考下面示例代码生成的数据：<br/>
 						具体可以参考我写的php版demo，希望对你有所帮助：<br/>
 						<script src='https://gitee.com/chenxuuu/codes/5bzq4n1yoxic9s2j7u8et59/widget_preview?title=php%E7%9A%84demo%EF%BC%8C%E5%8F%AF%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E4%B8%8E%E8%8B%B1%E6%96%87%EF%BC%8C%E5%AD%97%E4%BD%93%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%BF%98%E4%BA%86%E5%8A%A0%E4%B8%8A'></script>
 					</div>

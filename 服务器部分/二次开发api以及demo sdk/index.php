@@ -1,4 +1,6 @@
 <?php
+
+error_reporting(0);
 $imei = mysql_real_escape_string($_GET["imei"]);
 //包含数据库连接文件
 include('conn.php');
@@ -7,14 +9,23 @@ $check_query = mysql_query("select * from user where eink_imei='$imei' limit 1")
 if($result = mysql_fetch_array($check_query)){
     if($result["eink_set"] == "pic")
     {
-        echo '{"jump": false,"data": "'.$result["eink_pic"].'"}';
+        //echo '{"jump": false,"data": "'.$result["eink_pic"].'"}';
+        echo "<".pack("H*","00".$result["eink_pic"]);
     }
     else
     {
-        echo '{"jump": true,"data": "'.htmlspecialchars_decode($result["eink_api"]).'"}';
+        if($result["eink_pic"] != "")
+        {
+            //echo '{"jump": true,"data": "'.htmlspecialchars_decode($result["eink_api"]).'"}';
+            echo ">".htmlspecialchars_decode($result["eink_api"]);
+        }
+        else
+        {
+            echo ">https://qq.papapoi.com/e-ink/weather_report.php?t=2&";
+        }
     }
 }
-else 
+else
 {
     //没有被绑定
     $lat = $_GET["lat"];
@@ -73,9 +84,9 @@ else
 
     $pic_result = "";//存储结果
     $bit_temp = 0;  //临时存储用
-    for ($x=0;$x<imagesx($im);$x++) //咋转换的我忘了，反正这么搞就能出来正确结果 
+    for ($x=0;$x<imagesx($im);$x++) //咋转换的我忘了，反正这么搞就能出来正确结果
     {
-        for ($y=0;$y<imagesy($im);$y+=4) 
+        for ($y=0;$y<imagesy($im);$y+=4)
         {
             for ($j=$y;$j<$y+4;$j++)
             {
@@ -99,6 +110,7 @@ else
     黑白白白黑黑白白 -> 01110011 -> "73"
     从上到下，从左到右
     */
-    echo '{"jump": false,"data": "'.$pic_result.'"}';
+    //echo '{"jump": false,"data": "'.$pic_result.'"}';
+	echo "<".pack("H*","00".$pic_result);
 }
 

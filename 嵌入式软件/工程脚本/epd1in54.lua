@@ -98,9 +98,8 @@ local SET_RAM_X_ADDRESS_COUNTER                   = 0x4E
 local SET_RAM_Y_ADDRESS_COUNTER                   = 0x4F
 local TERMINATE_FRAME_READ_WRITE                  = 0xFF
 
-uart.close(2)
 --打开SPI引脚的供电
-pmd.ldoset(6,pmd.LDO_VMMC)
+pmd.ldoset(5,pmd.LDO_VMMC)
 --[[
 功能：配置SPI
 
@@ -120,7 +119,7 @@ local function wait()
     while(getBusy() == 1)  -- 0: idle, 1: busy
     do
         log.info("epd1in45.wait",getBusy())
-        rtos.sleep(100)
+        sys.wait(100)
     end
 end
 
@@ -146,9 +145,9 @@ end
 local function reset()
     log.info("epd1in45.reset","")
     setRST(0)
-    rtos.sleep(200)
+    sys.wait(200)
     setRST(1)
-    rtos.sleep(200)
+    sys.wait(200)
 end
 
 function deepSleep()
@@ -261,5 +260,3 @@ function showPicture(pic)
     sendDataString(pic)
     display_frame()
 end
-
-init(lut_full_update)
