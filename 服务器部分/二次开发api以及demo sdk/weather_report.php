@@ -30,7 +30,7 @@ $data=json_decode($result, true);
 
 
 $location = $data['HeWeather6']['0']['basic']['location'];
-$date_time = $data['HeWeather6'][0]['daily_forecast'][0]['date'];
+//$date_time = $data['HeWeather6'][0]['daily_forecast'][0]['date'];
 $day_w = $data['HeWeather6'][0]['daily_forecast'][0]['cond_txt_d'];
 $night_w = $data['HeWeather6'][0]['daily_forecast'][0]['cond_txt_n'];
 $t_max = $data['HeWeather6'][0]['daily_forecast'][0]['tmp_max'];
@@ -55,7 +55,7 @@ $battery=0;
 
 
 ImageString ( $im, 20, 0, 180, intval($battery*100).'%', $tc );
-ImageString ( $im, 20, 100, 180, $date_time, $tc );
+ImageString ( $im, 20, 40, 180, date("Y-m-d h:i"), $tc );
 
 // ImageString ( $im, 20, 0, 0, "just is English code", $tc );
 
