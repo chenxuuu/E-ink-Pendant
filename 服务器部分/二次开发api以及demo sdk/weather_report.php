@@ -25,7 +25,7 @@ $opts = array(
     )
 );
 $context = stream_context_create($opts);
-$result = file_get_contents("https://free-api.heweather.com/s6/weather/forecast?location=".$lng.",".$lat."&key=".$key, false, $context);
+$result = file_get_contents("https://free-api.heweather.com/s6/weather/forecast?location=".$lng.",".$lat."&key=3e91b51b16854a9db5a3c7d8efd2f648", false, $context);
 $data=json_decode($result, true);
 
 
