@@ -44,6 +44,7 @@ PRODUCT_KEY = "a79KxY1I3CJ5m6KymLWLfYZGn0lcqNZz"
 
 require "epd1in54"
 require "picdata"
+require "key"
 
 --启动系统框架
 sys.init(0, 0)

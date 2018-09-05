@@ -1652,7 +1652,10 @@ rtos.on(rtos.MSG_ALARM,alarMsg)
 local function showPic(data)
     if data:sub(1,1) == "<" then        --直接显示图片
         if data:byte(2) ~= 0 then
+            misc.setClock({year=2017,month=1,day=1,hour=1,min=1,sec=1})
+            sys.wait(2000)
             local onTimet = os.date("*t",os.time() + 3600 * data:byte(2))  --获取下次要开机的时间
+            log.info("restart time",3600 * data:byte(2),data:byte(2))
             rtos.set_alarm(1,onTimet.year,onTimet.month,onTimet.day,onTimet.hour,onTimet.min,onTimet.sec)   --设定闹铃
         end
         epd1in54.showPicture(data:sub(3))
@@ -1663,12 +1666,12 @@ local function showPic(data)
         http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
         local result,data= sys.waitUntil("HTTPFNC",60000) --等待获取位置，三十秒超时时间
         if not result or not data then    --超时
-            showError(httperr) --显示网站错误
+            showError(apierr) --显示网站错误
             return
         end
-        showPic("<"..data)
+        showPic(data)
     else    --前缀不对
-        showError(httperr) --显示网站错误
+        showError(apierr) --显示网站错误
     end
 end
 
@@ -1689,7 +1692,7 @@ sys.taskInit(function ()
         return
     end
 
-    local url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei().."&c="..net.getCellInfoExt()
+    local url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     local result,data= sys.waitUntil("HTTPFNC",60000) --等待获取位置，三十秒超时时间
     if not result or not data then    --超时

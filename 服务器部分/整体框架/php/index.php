@@ -154,8 +154,8 @@ html;
 						然后填写到上面的输入框，设置，即可<br/>
 						<br/><br/><br/><br/>
 						使用自己的的api接口（如果是用php写的，没服务器的话，可以联系晨旭代挂）：<br>
-						模块使用的是http get请求命令，请求格式：你的api网址?imei=模块的imei&lat=维度&lng=经度&v=电池电压（单位mV）&c=小区信息（用于自己定位）<br/>
-						例如：http://qq.papapoi.com/e-ink/weather_report.php?t=2&?&imei=123456789012345&lat=31&lng=110&v=4100&c=460.00.6335.29<br/>
+						模块使用的是http get请求命令，请求格式：你的api网址?imei=模块的imei&lat=维度&lng=经度&v=电池电压（单位mV）&c=当前和临近位置区、小区、mcc、mnc、以及信号强度的拼接字符串<br/>
+						例如：http://qq.papapoi.com/e-ink/weather_report.php?t=2&?&imei=123456789012345&lat=31&lng=110&v=4100&c=460.01.6311.49234.30;460.01.6311.49233.23;460.02.6322.49232.18<br/>
 						服务器返回的应为一段数据，不能夹杂其他任何数据，格式参考下面示例代码生成的数据：<br/>
 						具体可以参考我写的php版demo，希望对你有所帮助：<br/>
 						<script src='https://gitee.com/chenxuuu/codes/5bzq4n1yoxic9s2j7u8et59/widget_preview?title=php%E7%9A%84demo%EF%BC%8C%E5%8F%AF%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E4%B8%8E%E8%8B%B1%E6%96%87%EF%BC%8C%E5%AD%97%E4%BD%93%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%BF%98%E4%BA%86%E5%8A%A0%E4%B8%8A'></script>
