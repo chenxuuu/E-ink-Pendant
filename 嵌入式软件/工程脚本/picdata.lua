@@ -1998,7 +1998,7 @@ sys.taskInit(function ()
         return
     end
 
-    local url = "https://qq.papapoi.com/e-ink/update.php?v=".._G.VERSION
+    local url = "https://qq.papapoi.com/e-ink/update.php?v=".._G.VERSION.."&imei="..misc.getImei()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级信息，三十秒超时时间
     if result and data:len() > 4 then
