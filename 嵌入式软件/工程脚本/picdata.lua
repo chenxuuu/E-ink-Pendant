@@ -4,6 +4,9 @@ require"http"
 require"utils"
 require"lbsLoc"
 require"misc"
+require"config"
+require"nvm"
+nvm.init("config.lua")
 
 --已开机，正在联网，请稍后
 local opening = {
@@ -1942,6 +1945,10 @@ end
 --显示错误并关机
 local function showError(s)
     epd1in54.showPictureN(s)
+    sys.wait(3000)
+    if nvm.get("lastData") ~= nil then
+        showPic(nvm.get("lastData"))
+    end
     epd1in54.deepSleep()
     sys.wait(3000)
     rtos.poweroff()
@@ -1962,8 +1969,9 @@ rtos.on(rtos.MSG_ALARM,alarMsg)
 
 
 --显示网页内容
-local function showPic(data)
+function showPic(data)
     if data:sub(1,1) == "<" then        --直接显示图片
+        nvm.set("lastData",data)
         if data:byte(2) ~= 0 then
             misc.setClock({year=2017,month=1,day=1,hour=1,min=1,sec=1})
             sys.wait(2000)
