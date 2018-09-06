@@ -1931,6 +1931,19 @@ function getLocCb(result,lat,lng,addr)
     end
 end
 
+--获取一个最大的电压值
+local vMax = 0
+local function getVbatt()
+    sys.wait(3000)
+    local v =misc.getImei()
+    for i=1,20 do
+        if v > vMax then
+            vMax = v
+        end
+        sys.wait(100)
+    end
+end
+sys.taskInit(getVbatt)
 
 --下载http的返回
 local function httpCbFnc(result,statusCode,head,body)
@@ -1983,7 +1996,7 @@ function showPic(data)
         sys.wait(5000)
         rtos.poweroff()
     elseif data:sub(1,1) == ">" then    --需要跳转
-        url = data:sub(2).."?&lat="..lat1.."&lng="..lng1.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei().."&c="..net.getCellInfoExt()
+        url = data:sub(2).."?&lat="..lat1.."&lng="..lng1.."&v="..tostring(vMax).."&imei="..misc.getImei().."&c="..net.getCellInfoExt()
         http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
         local result,data= sys.waitUntil("HTTPFNC",60000) --等待获取位置，三十秒超时时间
         if not result or not data then    --超时
@@ -2030,7 +2043,7 @@ sys.taskInit(function ()
         return
     end
 
-    url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(misc.getVbatt()).."&imei="..misc.getImei()
+    url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(vMax).."&imei="..misc.getImei()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     result,data= sys.waitUntil("HTTPFNC",60000) --等待获取位置，三十秒超时时间
     if not result or not data then    --超时

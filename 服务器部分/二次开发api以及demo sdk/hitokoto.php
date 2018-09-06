@@ -1,15 +1,15 @@
 <?php
 mb_internal_encoding("UTF-8"); // 设置编码
-  
+
 function autowrap($fontsize, $angle, $fontface, $string, $width) {
-// 这几个变量分别是 字体大小, 角度, 字体名称, 字符串, 预设宽度 
+// 这几个变量分别是 字体大小, 角度, 字体名称, 字符串, 预设宽度
     $content = "";
-  
+
     // 将字符串拆分成一个个单字 保存到数组 letter 中
     for ($i=0;$i<mb_strlen($string);$i++) {
         $letter[] = mb_substr($string, $i, 1);
     }
-  
+
     foreach ($letter as $l) {
         $teststr = $content." ".$l;
         $testbox = imagettfbbox($fontsize, $angle, $fontface, $teststr);
@@ -51,7 +51,7 @@ imagettftext($im, 15, 0, 7, 25, $tc, "SIMYOU.TTF", autowrap(15, 0, "SIMYOU.TTF",
 
 imagettftext($im, 15, 0, 10, 150, $tc, "SIMYOU.TTF", autowrap(15, 0, "SIMYOU.TTF", "--".$from, 190));
 
-$battery = ($v - 3400)/800;
+$battery = ($v - 3400)/700;
 if($battery>1)
 $battery=1;
 elseif($battery<0)

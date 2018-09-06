@@ -67,7 +67,7 @@ else
     ImageString ( $im, 20, 100, 180, $date_time, $tc );
     ImageString ( $im, 15, 0, 110, 'imei:'.$imei, $tc );
 
-    $battery = ($v - 3400)/800;
+    $battery = ($v - 3400)/700;
     if($battery>1)
     $battery=1;
     elseif($battery<0)
