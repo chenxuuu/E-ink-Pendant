@@ -1935,7 +1935,7 @@ end
 local vMax = 0
 local function getVbatt()
     sys.wait(3000)
-    local v =misc.getImei()
+    local v = tonumber(misc.getImei())
     for i=1,20 do
         if v > vMax then
             vMax = v
@@ -2009,6 +2009,7 @@ function showPic(data)
     end
 end
 
+sys.timerStart(rtos.poweroff,1200000)--120秒后自动关机
 sys.taskInit(function ()
     epd1in54.init(lut_full_update)   --初始化
     epd1in54.showPictureN(opening)--显示开机画面
@@ -2023,6 +2024,7 @@ sys.taskInit(function ()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级信息，三十秒超时时间
     if result and data:len() > 4 then
+        sys.timerStop(rtos.poweroff)
         epd1in54.showPictureN(updatepic)    --显示升级中
         local UPD_FILE_PATH = "/luazip/update.bin"
         os.remove(UPD_FILE_PATH)

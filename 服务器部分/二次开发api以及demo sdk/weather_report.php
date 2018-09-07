@@ -8,6 +8,13 @@ $v = $_GET["v"];
 $key = $_GET["key"];  //用自己的key
 $ttt = $_GET["t"];   //延时再次启动的时间间隔（小时）
 
+$hour = intval(date("H"));//获取当前时间
+if($hour+$ttt > 21)
+    $ttt = 21 - $hour + 6;
+elseif($hour+$ttt < 6)
+    $ttt = 6 - $hour;
+
+
 $im = ImageCreate ( 200, 200 );
 $bgc = ImageColorAllocate ( $im, 255, 255, 255 );         //背景颜色
 $tc  = ImageColorAllocate ( $im, 0,0,0 );   //字体颜色
