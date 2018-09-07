@@ -1962,7 +1962,6 @@ local function showError(s)
     if nvm.get("lastData") ~= nil then
         showPic(nvm.get("lastData"))
     end
-    epd1in54.deepSleep()
     sys.wait(3000)
     rtos.poweroff()
 end
@@ -1993,6 +1992,7 @@ function showPic(data)
             rtos.set_alarm(1,onTimet.year,onTimet.month,onTimet.day,onTimet.hour,onTimet.min,onTimet.sec)   --设定闹铃
         end
         epd1in54.showPicture(data:sub(3))
+        epd1in54.deepSleep()
         sys.wait(5000)
         rtos.poweroff()
     elseif data:sub(1,1) == ">" then    --需要跳转
@@ -2009,7 +2009,14 @@ function showPic(data)
     end
 end
 
-sys.timerStart(rtos.poweroff,1200000)--120秒后自动关机
+function timerDog()
+    if nvm.get("lastData") ~= nil then
+        showPic(nvm.get("lastData"))
+    end
+    sys.timerStart(rtos.poweroff,30000)
+end
+
+sys.timerStart(timerDog,120000)--120秒后自动关机
 sys.taskInit(function ()
     epd1in54.init(lut_full_update)   --初始化
     epd1in54.showPictureN(opening)--显示开机画面
@@ -2024,7 +2031,7 @@ sys.taskInit(function ()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级信息，三十秒超时时间
     if result and data:len() > 4 then
-        sys.timerStop(rtos.poweroff)
+        sys.timerStop(timerDog)
         epd1in54.showPictureN(updatepic)    --显示升级中
         local UPD_FILE_PATH = "/luazip/update.bin"
         os.remove(UPD_FILE_PATH)
