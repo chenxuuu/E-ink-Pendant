@@ -105,6 +105,9 @@ html;
 					<li class="nav-item">
 						<a class="nav-link <?php echo $api_a;?>" href="#panel-596795" data-toggle="tab">使用自定义api接口</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#panel-295230" data-toggle="tab">查看该模块的历史数据记录</a>
+					</li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane <?php echo $pic_a;?>" id="panel-759280">
@@ -164,6 +167,19 @@ html;
 						服务器返回的应为一段数据，不能夹杂其他任何数据，格式参考下面示例代码生成的数据：<br/>
 						具体可以参考我写的php版demo，希望对你有所帮助：<br/>
 						<script src='https://gitee.com/chenxuuu/codes/5bzq4n1yoxic9s2j7u8et59/widget_preview?title=php%E7%9A%84demo%EF%BC%8C%E5%8F%AF%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E4%B8%8E%E8%8B%B1%E6%96%87%EF%BC%8C%E5%AD%97%E4%BD%93%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%BF%98%E4%BA%86%E5%8A%A0%E4%B8%8A'></script>
+					</div>
+					<div class="tab-pane" id="panel-295230">
+						imei值为<?php echo $imei;?>模块的历史刷新记录：<br>
+						<?php
+						$q = "SELECT * FROM e_ink_log where imei=$imei ORDER BY uid DESC"; //SQL 查询语句
+						$result = mysql_query($q); // 获取数据集
+						$temp_count=0;
+						while($row = mysql_fetch_array($result))
+						{
+							if($temp_count>500){break;}else{$temp_count++;}
+							echo "时间：".$row["time"].",imei：".$row["imei"].",返回类型：".$row["type"].",返回数据：".$row["data"]."<br/>";
+						}
+						?>
 					</div>
 				</div>
 			</div>
