@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+$timestring = date("Y-m-d H:i:s");
 $vnew = "1.0.1";
 $download_url = "http://open.papapoi.com/E-INK_1.0.1_Luat_V0028_8955_SSL.bin";
 $v = $_GET["v"];
