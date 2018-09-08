@@ -1935,7 +1935,7 @@ end
 local vMax = 0
 local function getVbatt()
     sys.wait(3000)
-    local v = tonumber(misc.getImei())
+    local v = tonumber(misc.getVbatt())
     for i=1,20 do
         if v > vMax then
             vMax = v
