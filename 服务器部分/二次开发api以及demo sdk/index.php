@@ -11,7 +11,7 @@ if($result = mysql_fetch_array($check_query)){
     {
         //echo '{"jump": false,"data": "'.$result["eink_pic"].'"}';
         echo "<".pack("H*","00"."00".$result["eink_pic"]);
-        $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"]."picture data";
+        $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",picture data";
         $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
         mysql_query($sql,$conn);
     }
@@ -22,7 +22,7 @@ if($result = mysql_fetch_array($check_query)){
             //echo '{"jump": true,"data": "'.htmlspecialchars_decode($result["eink_api"]).'"}';
             $d = htmlspecialchars_decode($result["eink_api"]);
             echo ">".$d;
-            $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].$d;
+            $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",".$d;
             $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','api','$d')";
             mysql_query($sql,$conn);
         }
@@ -30,7 +30,7 @@ if($result = mysql_fetch_array($check_query)){
         {
             $d = "https://qq.papapoi.com/e-ink/weather_report.php?t=2&";
             echo ">".$d;
-            $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].$d;
+            $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",".$d;
             $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','api','$d')";
             mysql_query($sql,$conn);
         }
@@ -127,7 +127,7 @@ else
     */
     //echo '{"jump": false,"data": "'.$pic_result.'"}';
     echo "<".pack("H*","00".$pic_result);
-    $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"]."picture data";
+    $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",picture data";
     $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
     mysql_query($sql,$conn);
 }
