@@ -62,7 +62,7 @@ $battery=0;
 
 
 ImageString ( $im, 20, 0, 180, intval($battery*100).'%', $tc );
-ImageString ( $im, 20, 40, 180, date("Y-m-d h:i"), $tc );
+ImageString ( $im, 20, 40, 180, date("Y-m-d H:i"), $tc );
 
 // ImageString ( $im, 20, 0, 0, "just is English code", $tc );
 

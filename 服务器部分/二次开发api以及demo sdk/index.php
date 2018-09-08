@@ -1,6 +1,6 @@
 <?php
-
 error_reporting(0);
+$timestring = date("Y-m-d H:i:s");
 $imei = mysql_real_escape_string($_GET["imei"]);
 //包含数据库连接文件
 include('conn.php');
@@ -10,18 +10,27 @@ if($result = mysql_fetch_array($check_query)){
     if($result["eink_set"] == "pic")
     {
         //echo '{"jump": false,"data": "'.$result["eink_pic"].'"}';
-        echo "<".pack("H*","00".$result["eink_pic"]);
+        echo "<".pack("H*","00"."00".$result["eink_pic"]);
+        $d = "00,".$result["eink_pic"];
+        $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
+        mysql_query($sql,$conn);
     }
     else
     {
         if($result["eink_pic"] != "")
         {
             //echo '{"jump": true,"data": "'.htmlspecialchars_decode($result["eink_api"]).'"}';
-            echo ">".htmlspecialchars_decode($result["eink_api"]);
+            $d = htmlspecialchars_decode($result["eink_api"]);
+            echo ">".$d;
+            $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','api','$d')";
+            mysql_query($sql,$conn);
         }
         else
         {
-            echo ">https://qq.papapoi.com/e-ink/weather_report.php?t=2&";
+            $d = "https://qq.papapoi.com/e-ink/weather_report.php?t=2&";
+            echo ">".$d;
+            $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','api','$d')";
+            mysql_query($sql,$conn);
         }
     }
 }
@@ -64,7 +73,7 @@ else
     imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "夜间：".$night_w);
     imagettftext($im, 18, 0, 0, 145, $tc, "SIMYOU.TTF", $wind.$wind_s.'级');
     imagettftext($im, 18, 0, 0, 170, $tc, "SIMYOU.TTF", '设备未绑定账号');
-    ImageString ( $im, 20, 100, 180, $date_time, $tc );
+    //ImageString ( $im, 20, 100, 180, $date_time, $tc );
     ImageString ( $im, 15, 0, 110, 'imei:'.$imei, $tc );
 
     $battery = ($v - 3400)/700;
@@ -75,6 +84,7 @@ else
 
 
     ImageString ( $im, 20, 0, 180, intval($battery*100).'%', $tc );
+    ImageString ( $im, 20, 40, 180, date("Y-m-d H:i"), $tc );
 
     // //设定http输出格式
     // header("Content-type: image/png");
@@ -111,6 +121,9 @@ else
     从上到下，从左到右
     */
     //echo '{"jump": false,"data": "'.$pic_result.'"}';
-	echo "<".pack("H*","00".$pic_result);
+    echo "<".pack("H*","00".$pic_result);
+    $d = "00,".$pic_result;
+    $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
+    mysql_query($sql,$conn);
 }
 
