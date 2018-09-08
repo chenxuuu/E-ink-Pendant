@@ -33,11 +33,14 @@ ImageString($im, 12, 0, 65, "lat:".$lat, $tc);
 ImageString($im, 12, 0, 80, "lng:".$lng, $tc);
 ImageString($im, 12, 0, 95, "battery:".$v, $tc);
 
-
-// //设定http输出格式
-// header("Content-type: image/png");
-// //将二进制文件流输出到网页，用于测试
-// imagePng($im);
+if(!empty($_GET['debug']))  //网址参数里加上&debug=1可以直接看输出的图片效果
+{
+    //设定http输出格式
+    header("Content-type: image/png");
+    //将二进制文件流输出到网页，用于测试
+    imagePng($im);
+    exit(0);
+}
 
 $pic_result = "";//存储结果
 $bit_temp = 0;  //临时存储用

@@ -72,13 +72,14 @@ ImageString ( $im, 20, 50, 180, date("Y-m-d H:i"), $tc );
 
 
 
-
-
- //设定http输出格式
-// header("Content-type: image/png");
- //将二进制文件流输出到网页，用于测试
-// imagePng($im);
-// exit(0);
+if(!empty($_GET['debug']))
+{
+    //设定http输出格式
+    header("Content-type: image/png");
+    //将二进制文件流输出到网页，用于测试
+    imagePng($im);
+    exit(0);
+}
 
 $pic_result = "";//存储结果
 $bit_temp = 0;  //临时存储用
