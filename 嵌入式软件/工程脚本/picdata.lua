@@ -2012,6 +2012,8 @@ end
 function timerDog()
     if nvm.get("lastData") ~= nil then
         showPic(nvm.get("lastData"))
+    else
+        showError(errorpic) --显示连接错误
     end
     sys.timerStart(rtos.poweroff,30000)
 end
@@ -2030,7 +2032,7 @@ sys.taskInit(function ()
     local url = "https://qq.papapoi.com/e-ink/update.php?v=".._G.VERSION.."&imei="..misc.getImei()
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
     local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级信息，三十秒超时时间
-    if result and data:len() > 4 then
+    if result and data and data:len() > 4 then
         sys.timerStop(timerDog)
         epd1in54.showPictureN(updatepic)    --显示升级中
         local UPD_FILE_PATH = "/luazip/update.bin"
