@@ -62,7 +62,10 @@ $battery = ($v - 3400)/700;
 if($battery>1)
 $battery=1;
 elseif($battery<0)
-$battery=0;
+{
+    $battery=0;
+    $ttt = 0;//电量过低，禁用自动开机，保护电池
+}
 
 
 ImageString ( $im, 20, 0, 180, intval($battery*100).'%', $tc );
