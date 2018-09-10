@@ -30,7 +30,7 @@ $ctype = $_GET["cc"];
 
 $hour = intval(date("H"));//获取当前时间
 if($hour+$ttt > 21)
-    $ttt = 21 - $hour + 6;
+    $ttt = 24 - $hour + 6;
 elseif($hour+$ttt < 6)
     $ttt = 6 - $hour;
 

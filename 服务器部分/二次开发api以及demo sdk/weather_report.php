@@ -10,7 +10,7 @@ $ttt = $_GET["t"];   //延时再次启动的时间间隔（小时）
 
 $hour = intval(date("H"));//获取当前时间
 if($hour+$ttt > 21)
-    $ttt = 21 - $hour + 6;
+    $ttt = 24 - $hour + 6;
 elseif($hour+$ttt < 6)
     $ttt = 6 - $hour;
 

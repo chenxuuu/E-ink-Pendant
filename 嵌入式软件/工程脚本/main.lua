@@ -7,7 +7,7 @@ VERSION = "1.0.1"
 --加载日志功能模块，并且设置日志输出等级
 --如果关闭调用log模块接口输出的日志，等级设置为log.LOG_SILENT即可
 require "log"
-LOG_LEVEL = log.LOGLEVEL_TRACE
+LOG_LEVEL = log.LOG_SILENT
 
 require "sys"
 
@@ -33,8 +33,8 @@ netLed.setup(true,pio.P1_1)
 
 --加载错误日志管理功能模块【强烈建议打开此功能】
 --如下2行代码，只是简单的演示如何使用errDump功能，详情参考errDump的api
--- require "errDump"
--- errDump.request("udp://ota.airm2m.com:9072")
+require "errDump"
+errDump.request("udp://ota.airm2m.com:9072")
 
 --加载远程升级功能模块【强烈建议打开此功能】
 --如下3行代码，只是简单的演示如何使用update功能，详情参考update的api以及demo/update
