@@ -1,5 +1,67 @@
 <?php
 error_reporting(0);
+
+//适当压缩，节省流量
+//编码算法：遇到n个f，写作“fn”，n取值：1-f
+//遇到n个0，写作“0n”，n取值：1-f
+//输入值：
+//$trans_data原16进制字符串
+//$delay_time需要延时的时间,数值型
+//返回值：
+//1字节"z" + 1字节延时时间 + 编码过的16进制转ascii字符串结果
+//若编码过比没编码还大，就返回编码前的结果：
+//1字节"<" + 1字节延时时间 + 原16进制转ascii字符串结果
+function encode_result($trans_data,$delay_time)
+{
+    $last_str = "";
+    $zip_result = "00";
+    for ($x=0;$x<strlen($trans_data);$x++)
+    {
+        if($trans_data[$x] == "f")
+        {
+            if($zip_result[strlen($zip_result)-2] != "f" or $last_str != "f")
+            {
+                $zip_result .= $trans_data[$x]."1";
+            }
+            elseif(hexdec($zip_result[strlen($zip_result)-1]) < 15)
+            {
+                $zip_result[strlen($zip_result)-1] = dechex(hexdec($zip_result[strlen($zip_result)-1])+1);
+            }
+            else
+            {
+                $zip_result .= $trans_data[$x]."1";
+            }
+        }
+        elseif($trans_data[$x] == "0")
+        {
+            if($zip_result[strlen($zip_result)-2] != "0" or $last_str != "0")
+            {
+                $zip_result .= $trans_data[$x]."1";
+            }
+            elseif(hexdec($zip_result[strlen($zip_result)-1]) < 15)
+            {
+                $zip_result[strlen($zip_result)-1] = dechex(hexdec($zip_result[strlen($zip_result)-1])+1);
+            }
+            else
+            {
+                $zip_result .= $trans_data[$x]."1";
+            }
+        }
+        else
+        {
+            $zip_result .= $trans_data[$x];
+        }
+        $last_str = $trans_data[$x];
+    }
+    $zip_result = substr($zip_result,2);
+
+    if(strlen($zip_result) < strlen($trans_data))
+        return "z".pack("H*",dechex($delay_time/256).dechex($delay_time%256).$zip_result);
+    else
+        return "<".pack("H*",dechex($delay_time/256).dechex($delay_time%256).$trans_data);
+}
+
+
 $timestring = date("Y-m-d H:i:s");
 $imei = mysql_real_escape_string($_GET["imei"]);
 //包含数据库连接文件
@@ -10,7 +72,8 @@ if($result = mysql_fetch_array($check_query)){
     if($result["eink_set"] == "pic")
     {
         //echo '{"jump": false,"data": "'.$result["eink_pic"].'"}';
-        echo "<".pack("H*","00"."00".$result["eink_pic"]);
+        //echo "<".pack("H*","00"."00".$result["eink_pic"]);
+        echo encode_result($result["eink_pic"],0);
         $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",picture data";
         $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
         mysql_query($sql,$conn);
@@ -126,7 +189,8 @@ else
     从上到下，从左到右
     */
     //echo '{"jump": false,"data": "'.$pic_result.'"}';
-    echo "<".pack("H*","00".$pic_result);
+    //echo "<".pack("H*","00".$pic_result);
+    echo encode_result($pic_result,0);
     $d = $_GET["lat"].",".$_GET["lng"].",".$_GET["v"].",picture data";
     $sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','pic','$d')";
     mysql_query($sql,$conn);
