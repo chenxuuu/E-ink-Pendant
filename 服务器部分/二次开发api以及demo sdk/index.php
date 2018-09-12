@@ -95,7 +95,7 @@ if($result = mysql_fetch_array($check_query)){
     }
     else
     {
-        if($result["eink_pic"] != "")
+        if($result["eink_api"] != "")
         {
             //echo '{"jump": true,"data": "'.htmlspecialchars_decode($result["eink_api"]).'"}';
             $d = htmlspecialchars_decode($result["eink_api"]);
