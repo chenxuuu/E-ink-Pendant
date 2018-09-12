@@ -1899,7 +1899,7 @@ local updatepic={
 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00}
 
-local lat1,lng1
+local lat1,lng1=0,0
 --[[
 功能  ：发送查询位置请求
 参数  ：无
@@ -1922,7 +1922,7 @@ end
 function getLocCb(result,lat,lng,addr)
     log.info("LbsLoc.getLocCb",result,lat,lng,(result==0 and addr) and common.ucs2beToGb2312(addr) or "")
 
-    if result==0 then--获取经纬度成功
+    if result==0 and lat ~= nil and lng ~= nil then--获取经纬度成功
         log.info("LbsLoc.getLocCb",lat,lng)
         lat1,lng1 = lat,lng
         sys.publish("LOC_LBS")
@@ -1982,7 +1982,7 @@ rtos.on(rtos.MSG_ALARM,alarMsg)
 
 --显示网页内容
 function showPic(data)
-    if data:sub(1,1) == "<" then        --直接显示图片
+    if data:sub(1,1) == "<" or data:sub(1,1) == "z" then        --直接显示图片
         nvm.set("lastData",data)
         if data:byte(2) ~= 0 then
             misc.setClock({year=2017,month=1,day=1,hour=1,min=1,sec=1})
@@ -1990,8 +1990,14 @@ function showPic(data)
             local onTimet = os.date("*t",os.time() + 3600 * data:byte(2))  --获取下次要开机的时间
             log.info("restart time",3600 * data:byte(2),data:byte(2))
             rtos.set_alarm(1,onTimet.year,onTimet.month,onTimet.day,onTimet.hour,onTimet.min,onTimet.sec)   --设定闹铃
+        else
+            rtos.set_alarm(0, 0, 0, 0, 0, 0, 0)  --关闭闹铃
         end
-        epd1in54.showPicture(data:sub(3))
+        if data:sub(1,1) == "<" then
+            epd1in54.showPicture(data:sub(3))
+        elseif data:sub(1,1) == "z" then    --编码过的数据
+            epd1in54.showPicturez(data:sub(3))
+        end
         epd1in54.deepSleep()
         sys.wait(5000)
         rtos.poweroff()
@@ -2004,6 +2010,19 @@ function showPic(data)
             return
         end
         showPic(data)
+    elseif data:sub(1,1) == "u" then    --检测到升级
+        sys.timerStop(timerDog)
+        epd1in54.showPictureN(updatepic)    --显示升级中
+        local UPD_FILE_PATH = "/luazip/update.bin"
+        os.remove(UPD_FILE_PATH)
+        http.request("GET",data:sub(2),nil,nil,nil,60000,httpCbFnc,UPD_FILE_PATH)
+        local result,data= sys.waitUntil("HTTPFNC",120000) --等待升级包下载结果，120秒超时时间
+        if result then
+            sys.restart("update")   --下载完立刻重启
+        else
+            showError(httperr) --显示http加载错误
+            return
+        end
     else    --前缀不对
         showError(apierr) --显示网站错误
     end
@@ -2029,34 +2048,16 @@ sys.taskInit(function ()
         return
     end
 
-    local url = "https://qq.papapoi.com/e-ink/update.php?v=".._G.VERSION.."&imei="..misc.getImei()
-    http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
-    local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级信息，三十秒超时时间
-    if result and data and data:len() > 4 then
-        sys.timerStop(timerDog)
-        epd1in54.showPictureN(updatepic)    --显示升级中
-        local UPD_FILE_PATH = "/luazip/update.bin"
-        os.remove(UPD_FILE_PATH)
-        http.request("GET",data,nil,nil,nil,60000,httpCbFnc,UPD_FILE_PATH)
-        local result,data= sys.waitUntil("HTTPFNC",60000) --等待升级包下载结果，三十秒超时时间
-        if result then
-            sys.restart("update")   --下载完立刻重启
-        else
-            showError(httperr) --显示http加载错误
-            return
-        end
-    end
-
     reqLbsLoc()
-    result = sys.waitUntil("LOC_LBS",60000) --等待获取位置，三十秒超时时间
+    result = sys.waitUntil("LOC_LBS",30000) --等待获取位置，三十秒超时时间
     if not result then    --超时
         showError(errorloc) --显示获取位置错误
         return
     end
 
-    url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(vMax).."&imei="..misc.getImei()
+    url = "https://qq.papapoi.com/e-ink/?lat="..lat1.."&lng="..lng1.."&v="..tostring(vMax).."&imei="..misc.getImei().."&ver=".._G.VERSION
     http.request("GET",url,nil,nil,nil,30000,httpCbFnc)
-    result,data= sys.waitUntil("HTTPFNC",60000) --等待获取位置，三十秒超时时间
+    result,data= sys.waitUntil("HTTPFNC",30000) --等待获取数据，三十秒超时时间
     if not result or not data then    --超时
         showError(httperr) --显示网站错误
         return

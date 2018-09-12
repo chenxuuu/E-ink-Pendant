@@ -64,8 +64,23 @@ function encode_result($trans_data,$delay_time)
 
 $timestring = date("Y-m-d H:i:s");
 $imei = mysql_real_escape_string($_GET["imei"]);
+$ver = $_GET["ver"];
+$ver_now = "1.0.2";
+$download_url = "http://open.papapoi.com/E-INK_1.0.1_Luat_V0028_8955_SSL.bin";
 //包含数据库连接文件
 include('conn.php');
+
+if($ver != $ver_now)    //版本不一致，返回升级包地址
+{
+echo "u".$download_url;
+$d = "update:".$ver."->".$ver_now;
+$sql = "INSERT INTO e_ink_log(time,imei,type,data)VALUES('$timestring','$imei','update','$d')";
+mysql_query($sql,$conn);
+exit(0);
+}
+
+
+
 //检查imei是否绑定
 $check_query = mysql_query("select * from user where eink_imei='$imei' limit 1");
 if($result = mysql_fetch_array($check_query)){

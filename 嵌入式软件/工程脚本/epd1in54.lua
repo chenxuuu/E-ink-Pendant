@@ -260,3 +260,35 @@ function showPicture(pic)
     sendDataString(pic)
     display_frame()
 end
+
+--输入值：编码过的string
+function showPicturez(pic)
+    wait()
+    log.info("epd1in45.showPicture z","")
+    set_memory_area(0, 0, EPD_WIDTH - 1, EPD_HEIGHT - 1)
+    set_memory_pointer(0, 0)
+    sendCommand(WRITE_RAM)
+
+    local dataHex = pic:toHex():upper()
+    local dataResult = ""
+    local i = 1
+    while i <= dataHex:len() do
+        if i == dataHex:len() and dataHex:sub(i,i) == "0" then break end--末尾可能多一位，忽略
+        if dataHex:sub(i,i) == "F" or dataHex:sub(i,i) == "0" then
+            for j=1,("0"..dataHex:sub(i+1,i+1)):fromHex():byte() do
+                dataResult = dataResult..dataHex:sub(i,i)
+            end
+            i = i + 2
+        else
+            dataResult = dataResult..dataHex:sub(i,i)
+            i = i + 1
+        end
+        if dataResult:len() % 2 == 0 then
+            sendDataString(dataResult:fromHex())
+            log.info("spi send",dataResult)
+            dataResult = ""
+        end
+    end
+
+    display_frame()
+end
