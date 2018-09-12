@@ -1983,6 +1983,7 @@ rtos.on(rtos.MSG_ALARM,alarMsg)
 --显示网页内容
 function showPic(data)
     if data:sub(1,1) == "<" or data:sub(1,1) == "z" then        --直接显示图片
+        sys.timerStop(timerDog)
         nvm.set("lastData",data)
         if data:byte(2) ~= 0 then
             misc.setClock({year=2017,month=1,day=1,hour=1,min=1,sec=1})
