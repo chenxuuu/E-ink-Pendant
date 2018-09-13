@@ -1906,8 +1906,7 @@ local lat1,lng1=0,0
 返回值：无
 ]]
 local function reqLbsLoc()
-    reqAddr = not reqAddr
-    lbsLoc.request(getLocCb,reqAddr)
+    lbsLoc.request(getLocCb)
 end
 
 --[[
@@ -1922,13 +1921,10 @@ end
 function getLocCb(result,lat,lng,addr)
     log.info("LbsLoc.getLocCb",result,lat,lng,(result==0 and addr) and common.ucs2beToGb2312(addr) or "")
 
-    if result==0 and lat ~= nil and lng ~= nil then--获取经纬度成功
-        log.info("LbsLoc.getLocCb",lat,lng)
-        lat1,lng1 = lat,lng
-        sys.publish("LOC_LBS")
-    else
-        sys.publish("LOC_LBS")
-    end
+    lat1,lng1 = lat or nvm.get("lat") or "116.3",lng or nvm.get("lng") or "39.9"--位置获取失败就使用上次存储的位置
+    nvm.set("lat",lat1)--存储这次获取到的位置
+    nvm.set("lng",lng1)
+    sys.publish("LOC_LBS")
 end
 
 --获取一个最大的电压值
