@@ -13,6 +13,7 @@ error_reporting(0);
 //1字节"<" + 1字节延时时间 + 原16进制转ascii字符串结果
 function encode_result($trans_data,$delay_time)
 {
+    $trans_data = strtolower($trans_data);
     $last_str = "";
     $zip_result = "00";
     for ($x=0;$x<strlen($trans_data);$x++)
