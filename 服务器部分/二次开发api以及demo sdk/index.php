@@ -66,8 +66,8 @@ function encode_result($trans_data,$delay_time)
 $timestring = date("Y-m-d H:i:s");
 $imei = mysql_real_escape_string($_GET["imei"]);
 $ver = $_GET["ver"];
-$ver_now = "1.0.2";
-$download_url = "http://open.papapoi.com/E-INK_1.0.1_Luat_V0028_8955_SSL.bin";
+$ver_now = "1.0.3";
+$download_url = "http://open.papapoi.com/E-INK_1.0.3_Luat_V0028_8955_SSL.bin";
 //包含数据库连接文件
 include('conn.php');
 

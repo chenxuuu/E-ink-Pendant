@@ -273,6 +273,7 @@ function showPicturez(pic)
     local dataResult = ""
     local i = 1
     while i <= dataHex:len() do
+        if i % 1000 == 0 then sys.wait(1500) log.info("wait for "..tostring(i)) end
         if i == dataHex:len() and dataHex:sub(i,i) == "0" then break end--末尾可能多一位，忽略
         if dataHex:sub(i,i) == "F" or dataHex:sub(i,i) == "0" then
             for j=1,("0"..dataHex:sub(i+1,i+1)):fromHex():byte() do
