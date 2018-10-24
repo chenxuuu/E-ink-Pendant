@@ -150,12 +150,12 @@ else
 
     imagettftext($im, 25, 0, 0, 28, $tc, "SIMYOU.TTF", $location);
     imagettftext($im, 20, 0, 90, 55, $tc, "SIMYOU.TTF", $t_min.'~'.$t_max.'℃');
-    imagettftext($im, 18, 0, 0, 80, $tc, "SIMYOU.TTF", "白天：".$day_w);
-    imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "夜间：".$night_w);
-    imagettftext($im, 18, 0, 0, 145, $tc, "SIMYOU.TTF", $wind.$wind_s.'级');
-    imagettftext($im, 18, 0, 0, 170, $tc, "SIMYOU.TTF", '设备未绑定账号');
+    imagettftext($im, 18, 0, 0, 80, $tc, "SIMYOU.TTF", "设备未绑定账号");
+    imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "请打开如下网址");
+    imagettftext($im, 18, 0, 0, 135, $tc, "SIMYOU.TTF", '并登陆设置imei');
+    ImageString ( $im, 15, 0, 150, 'chenxublog.com/kxct', $tc );
     //ImageString ( $im, 20, 100, 180, $date_time, $tc );
-    ImageString ( $im, 15, 0, 110, 'imei:'.$imei, $tc );
+    ImageString ( $im, 15, 0, 165, 'imei:'.$imei, $tc );
 
     $battery = ($v - 3400)/700;
     if($battery>1)

@@ -82,6 +82,21 @@ if($imei=="")
 html;
 }
 			?>
+			<div class="alert alert-warning alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+					×
+				</button>
+				<h4>
+					使用须知！
+				</h4>1.挂饰到手后，请先充电<br/>
+				2.挂饰每个月流量为5M，所以请勿频繁开机，会迅速消耗流量<br/>
+				3.流量费一年2元，如果觉得流量不够用，可以提升套餐<br/>
+				4.国外用不了<br/>
+				5.提供的官方api，都是每隔两小时刷新一次，且21:00-6:00不进行刷新；如果设置的是固定图片，那么不会自动刷新，需要手动开机刷新<br/>
+				6.可以自己写api，测试时请注意流量消耗；php可以发代码给晨旭，放到这里的服务器上<br/>
+				7.开机方式：按开机键两秒，然后松开<br/>
+				8.其他问题请在群内问
+			</div>
 			<form role="form" method="post" action="setimei.php">
 				<div class="form-group">
 					<label for="imei">
