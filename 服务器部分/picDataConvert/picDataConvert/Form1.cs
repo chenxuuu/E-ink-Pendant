@@ -5,9 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -271,6 +273,56 @@ namespace picDataConvert
                 MessageBox.Show("数据错误，无法复制");
             }
                 
+        }
+
+        /// <summary>
+        /// hex字符转字符串
+        /// </summary>
+        /// <param name="mHex"></param>
+        /// <returns></returns>
+        public static byte[] Hex2String(string mHex)
+        {
+            mHex = Regex.Replace(mHex, "[^0-9A-Fa-f]", "");
+            if (mHex.Length % 2 != 0)
+                mHex = mHex.Remove(mHex.Length - 1, 1);
+            if (mHex.Length <= 0) return null;
+            byte[] vBytes = new byte[mHex.Length / 2];
+            for (int i = 0; i < mHex.Length; i += 2)
+                if (!byte.TryParse(mHex.Substring(i, 2), NumberStyles.HexNumber, null, out vBytes[i / 2]))
+                    vBytes[i / 2] = 0;
+            return vBytes;
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            string localFilePath = "";
+            //string localFilePath, fileNameExt, newFileName, FilePath; 
+            SaveFileDialog sfd = new SaveFileDialog();
+            //设置文件类型 
+            sfd.Filter = "二进制图片数据（*.pic）|*.pic";
+
+            //设置默认文件类型显示顺序 
+            sfd.FilterIndex = 1;
+
+            //保存对话框是否记忆上次打开的目录 
+            sfd.RestoreDirectory = true;
+
+            //点了保存按钮进入 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                localFilePath = sfd.FileName.ToString(); //获得文件路径 
+                string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
+
+                Bitmap pic = (Bitmap)pictureBox2.Image;
+                pic.Save(localFilePath.Substring(0,localFilePath.Length-4)+"bak.png");
+
+                FileStream fs = new FileStream(localFilePath, FileMode.Create);
+                fs.Write(Hex2String(textBox1.Text), 0, textBox1.Text.Length / 2);
+                fs.Flush();
+                fs.Close();
+
+                MessageBox.Show("保存成功");
+            }
         }
     }
 }
