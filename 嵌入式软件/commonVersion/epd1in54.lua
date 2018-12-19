@@ -2,7 +2,16 @@ module(..., package.seeall)
 require"misc"
 require"utils"
 
-local getBusy         = pins.setup(pio.P0_6)
+local function getBusyFnc(msg)
+    log.info("Gpio.getBusyFnc",msg)
+    if msg==cpu.INT_GPIO_POSEDGE then--上升沿中断
+        --不动作
+    else--下降沿中断
+        sys.publish("BUSY_DOWN")
+    end
+end
+
+local getBusy         = pins.setup(pio.P0_6,getBusyFnc)
 local setRST          = pins.setup(pio.P0_5,1)
 local setDC           = pins.setup(pio.P0_4,1)
 
@@ -116,10 +125,8 @@ duplex：是否全双工，仅支持0和1，0表示半双工（仅支持输出�
 log.info("spi.setup",spi.setup(spi.SPI_1,0,0,8,13000000,0,0))
 
 local function wait()
-    while(getBusy() == 1)  -- 0: idle, 1: busy
-    do
-        log.info("epd1in45.wait",getBusy())
-        sys.wait(100)
+    if getBusy() == 1 then  -- 0: idle, 1: busy
+        sys.waitUntil("BUSY_DOWN",5000)
     end
 end
 

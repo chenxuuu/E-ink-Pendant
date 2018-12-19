@@ -45,6 +45,7 @@ update.request()
 
 require "epd1in54"
 require "picdata"
+require "pincfg"
 
 sys.timerLoopStart(function ()
     log.info("beep~~")
