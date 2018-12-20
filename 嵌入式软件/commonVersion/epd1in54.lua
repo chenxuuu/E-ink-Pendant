@@ -149,6 +149,18 @@ local function sendDataString(data)
     spi.send(spi.SPI_1,data)
 end
 
+local function sendDataTrans(data)
+    setDC(1)
+    local temp
+    for i=1,200 do
+        for j=25,1,-1 do
+            temp = (j-1)*200+i
+            --log.info("epd1in45.temp",temp)
+            spi.send(spi.SPI_1,data:sub(temp,temp))
+        end
+    end
+end
+
 local function reset()
     log.info("epd1in45.reset","")
     setRST(0)
@@ -265,6 +277,17 @@ function showPicture(pic)
     set_memory_pointer(0, 0)
     sendCommand(WRITE_RAM)
     sendDataString(pic)
+    display_frame()
+end
+
+--输入值：string,按页显示的数据
+function showPicturePage(pic)
+    wait()
+    log.info("epd1in45.showPicture","")
+    set_memory_area(0, 0, EPD_WIDTH - 1, EPD_HEIGHT - 1)
+    set_memory_pointer(0, 0)
+    sendCommand(WRITE_RAM)
+    sendDataTrans(pic)
     display_frame()
 end
 

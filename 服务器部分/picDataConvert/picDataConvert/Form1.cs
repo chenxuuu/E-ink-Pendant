@@ -66,10 +66,14 @@ namespace picDataConvert
             // 按比例缩放           
             int sWidth = imgSource.Width;
             int sHeight = imgSource.Height;
-            if(sWidth != 200 | sHeight != 200)
+            if(sWidth > 200 | sHeight > 200)
             {
                 MessageBox.Show("图片大小不为200*200，将会自动进行等比缩放处理\r\n" +
                                 "建议先把图片处理为200*200大小，再来生成");
+            }
+            else if(sWidth < 200 && sHeight < 200)
+            {
+                return b;
             }
             if (sHeight > destHeight || sWidth > destWidth)
             {
@@ -195,7 +199,7 @@ namespace picDataConvert
                 label4.Text = trackBar1.Value.ToString();
                 showPicDate(true);
             }
-            catch
+            catch(Exception ee)
             {
                 pictureBox2.Image = pictureBox1.Image;
                 label4.Text = trackBar1.Value.ToString() + "，阈值设置过于极端，处理出现错误";
@@ -299,7 +303,7 @@ namespace picDataConvert
             //string localFilePath, fileNameExt, newFileName, FilePath; 
             SaveFileDialog sfd = new SaveFileDialog();
             //设置文件类型 
-            sfd.Filter = "二进制图片数据（*.pic）|*.pic";
+            sfd.Filter = "单色位图（*.bmp）|*.bmp";
 
             //设置默认文件类型显示顺序 
             sfd.FilterIndex = 1;
@@ -314,12 +318,15 @@ namespace picDataConvert
                 string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
 
                 Bitmap pic = (Bitmap)pictureBox2.Image;
-                pic.Save(localFilePath.Substring(0,localFilePath.Length-4)+"bak.png");
+                var original = pic;
+                var rectangle = new Rectangle(0, 0, original.Width, original.Height);
+                var bmp1bpp = original.Clone(rectangle, PixelFormat.Format1bppIndexed);
+                bmp1bpp.Save(localFilePath);
 
-                FileStream fs = new FileStream(localFilePath, FileMode.Create);
-                fs.Write(Hex2String(textBox1.Text), 0, textBox1.Text.Length / 2);
-                fs.Flush();
-                fs.Close();
+                //FileStream fs = new FileStream(localFilePath, FileMode.Create);
+                //fs.Write(Hex2String(textBox1.Text), 0, textBox1.Text.Length / 2);
+                //fs.Flush();
+                //fs.Close();
 
                 MessageBox.Show("保存成功");
             }
