@@ -1899,6 +1899,30 @@ local updatepic={
 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00}
 
+--充电检测中断
+local function chargeFnc(msg)
+    log.info("Gpio.chargeFnc",msg)
+    if msg==cpu.INT_GPIO_POSEDGE then--上升沿中断
+        --插上充电器了
+    else--下降沿中断
+        --拔掉充电器了
+        sys.publish("CHARGE_OFF")
+    end
+end
+local charge = pins.setup(pio.P0_7,chargeFnc)
+
+local oldPowerOff = rtos.poweroff
+rtos.poweroff = function ()
+    if charge() == 1 then
+        sys.taskInit(function ()
+            sys.waitUntil("CHARGE_OFF")
+            oldPowerOff()
+        end)
+    else
+        oldPowerOff()
+    end
+end
+
 local lat1,lng1=0,0
 --[[
 功能  ：发送查询位置请求
