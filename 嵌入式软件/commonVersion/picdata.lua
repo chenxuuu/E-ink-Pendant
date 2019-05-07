@@ -3,20 +3,8 @@ require"epd1in54"
 require"utils"
 require"common"
 
---显示保存的图片文件
-function showPictureFile(name)
-    if io.exists("/ldata/"..name..".pic") then
-        local pictureData = io.readFile("/ldata/"..name..".pic")
-        log.info("picdata",pictureData:sub(1,50):toHex())
-        epd1in54.showPicture(pictureData)
-    else
-        log.error("picdata","no file named "..name)
-    end
-end
-
 sys.taskInit(function ()
     epd1in54.init()   --初始化
-    --showPictureFile("open")--显示开机画面
     disp.new({
         width = 200, --分辨率宽度，128像素；用户根据屏的参数自行修改
         height = 200, --分辨率高度，64像素；用户根据屏的参数自行修改
@@ -28,8 +16,14 @@ sys.taskInit(function ()
     sys.wait(3000)
     disp.clear()
     log.info("pic data","start")
-    disp.puttext(common.utf8ToGb2312("合宙openluat墨水屏测试"),0,0)
-    disp.putimage("/ldata/test.bmp",30,30)
+    disp.puttext(common.utf8ToGb2312("纽约"),0,0)
+    disp.puttext(common.utf8ToGb2312("23C~32C"),120,16)
+    disp.puttext(common.utf8ToGb2312("白天：多云"),0,32)
+    disp.puttext(common.utf8ToGb2312("夜间：火山爆发"),0,48)
+    disp.puttext(common.utf8ToGb2312("湿度：70%"),0,64)
+    disp.puttext(common.utf8ToGb2312("风力：19级"),0,80)
+    disp.puttext(common.utf8ToGb2312("空气质量：重度污染"),0,96)
+    --disp.putimage("/ldata/test.bmp",30,30)
     local pic = disp.getframe()
     sys.wait(200)
     epd1in54.showPicturePage(pic)

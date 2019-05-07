@@ -1902,19 +1902,23 @@ local updatepic={
 --充电检测中断
 local function chargeFnc(msg)
     log.info("Gpio.chargeFnc",msg)
+    sys.publish("CHARGE_OFF")
     if msg==cpu.INT_GPIO_POSEDGE then--上升沿中断
-        --插上充电器了
+        --sys.publish("CHARGE_OFF")
     else--下降沿中断
-        --拔掉充电器了
-        sys.publish("CHARGE_OFF")
+
     end
 end
 local charge = pins.setup(pio.P0_7,chargeFnc)
+pio.pin.setpull(pio.PULLDOWN,pio.P0_7)
+log.info("Gpio.charge check",charge())
 
 local oldPowerOff = rtos.poweroff
 rtos.poweroff = function ()
+    log.info("Gpio.charge check",charge())
     if charge() == 1 then
         sys.taskInit(function ()
+            log.info("Gpio.charge check","wait for uncharge")
             sys.waitUntil("CHARGE_OFF")
             oldPowerOff()
         end)
@@ -2053,7 +2057,9 @@ function timerDog()
     if nvm.get("lastData") ~= nil then
         showPic(nvm.get("lastData"))
     else
-        showError(errorpic) --显示连接错误
+        sys.taskInit(function ()
+            showError(errorpic) --显示连接错误
+        end)
     end
     sys.timerStart(rtos.poweroff,30000)
 end

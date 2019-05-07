@@ -8,7 +8,7 @@ VERSION = "1.0.4"
 --如果关闭调用log模块接口输出的日志，等级设置为log.LOG_SILENT即可
 require "log"
 LOG_LEVEL = log.LOG_SILENT
---LOG_LEVEL = log.LOGLEVEL_TRACE
+LOG_LEVEL = log.LOGLEVEL_TRACE
 
 require "sys"
 
