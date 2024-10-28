@@ -11,6 +11,10 @@ LOG_LEVEL = log.LOG_SILENT
 LOG_LEVEL = log.LOGLEVEL_TRACE
 
 require "sys"
+--如果是关机闹钟开机，则需要软件主动重启一次，才能启动GSM协议栈
+if rtos.poweron_reason()==rtos.POWERON_ALARM then
+    sys.restart("ALARM_ON")
+end
 
 require "net"
 --每1分钟查询一次GSM信号强度

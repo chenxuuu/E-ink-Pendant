@@ -1994,10 +1994,6 @@ end
 local function alarMsg()
     log.info("poweroff.alarmMsg","alarm")
 end
---如果是关机闹钟开机，则需要软件主动重启一次，才能启动GSM协议栈
-if rtos.poweron_reason()==rtos.POWERON_ALARM then
-    sys.restart("ALARM_ON")
-end
 
 --注册闹钟模块
 rtos.init_module(rtos.MOD_ALARM)
@@ -2076,7 +2072,7 @@ sys.taskInit(function ()
     end
 
     reqLbsLoc()
-    result = sys.waitUntil("LOC_LBS",30000) --等待获取位置，三十秒超时时间
+    local result = sys.waitUntil("LOC_LBS",30000) --等待获取位置，三十秒超时时间
     if not result then    --超时
         showError(errorloc) --显示获取位置错误
         return

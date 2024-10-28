@@ -152,7 +152,7 @@ else
     imagettftext($im, 20, 0, 90, 55, $tc, "SIMYOU.TTF", $t_min.'~'.$t_max.'℃');
     imagettftext($im, 18, 0, 0, 80, $tc, "SIMYOU.TTF", "设备未绑定账号");
     imagettftext($im, 18, 0, 0, 105, $tc, "SIMYOU.TTF", "请打开如下网址");
-    imagettftext($im, 18, 0, 0, 135, $tc, "SIMYOU.TTF", '并登陆设置imei');
+    imagettftext($im, 18, 0, 0, 135, $tc, "SIMYOU.TTF", '并登录设置imei');
     ImageString ( $im, 15, 0, 150, 'chenxublog.com/kxct', $tc );
     //ImageString ( $im, 20, 100, 180, $date_time, $tc );
     ImageString ( $im, 15, 0, 165, 'imei:'.$imei, $tc );
